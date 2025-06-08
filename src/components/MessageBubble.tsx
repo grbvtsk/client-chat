@@ -1,12 +1,14 @@
+interface MessageBubbleProps {
+  content: string;
+  nickname: string;
+  isOwn: boolean;
+}
+
 export default function MessageBubble({
   content,
   nickname,
   isOwn,
-}: {
-  content: string;
-  nickname: string;
-  isOwn: boolean;
-}) {
+}: MessageBubbleProps) {
   return (
     <div className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-2`}>
       <div

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useUser } from "../context/UserContext";
 import MessageBubble from "../components/MessageBubble";
+const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
 
 interface Message {
   id: number;
@@ -12,11 +13,11 @@ interface Message {
 export default function Chat() {
   const { nickname } = useUser();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<string>("");
   const bottomRef = useRef<HTMLDivElement>(null);
-
+  // `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
   const fetchMessages = async () => {
-    const res = await fetch("http://localhost:3000/messages");
+    const res = await fetch(`${apiUrl}/messages`);
     const data = await res.json();
     setMessages(data);
   };
@@ -28,7 +29,7 @@ export default function Chat() {
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    await fetch("http://localhost:3000/messages", {
+    await fetch(`${apiUrl}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nickname, content: input }),
